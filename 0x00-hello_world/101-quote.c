@@ -5,15 +5,13 @@
 /**
  * main - Entry point
  *
- * Return: Always 0 (Success)
+ * Return: 1 (Success)
  */
 int main(void)
 {
-	int length =
-		strlen("and that piece of art is useful - Dora Korpar, 2015-10-19\n");
+	char *text = "and that piece of art is useful\" - Dora Korpar, 2015-10-19\n";
+	int length = strlen(text);
 
-	write(2,
-		"and that piece of art is useful - Dora Korpar, 2015-10-19\n",
-		length);
+	write(2, text, length);
 	return (1);
 }
