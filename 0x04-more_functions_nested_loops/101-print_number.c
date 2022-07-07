@@ -2,18 +2,22 @@
 
 /**
  * print_number - Prints an integer
- * @n: Theinteger to print
+ * @n: The integer to print
  */
 void print_number(int n)
 {
 	if (n < 0)
 	{
 		_putchar('-');
-		n = -n;
+		print_number(-n);
+		return;
 	}
 
-	if (n / 10)
+	if (n > 9)
+	{
 		print_number(n / 10);
-
-	_putchar(n % 10 + '0');
+		_putchar(n % 10 + '0');
+	}
+	else
+		_putchar(n + '0');
 }
