@@ -6,18 +6,41 @@
  */
 void print_number(int n)
 {
-	if (n < 0)
+	int m; /* power of 10 */
+	int c; /* boolean check */
+	int num; /* convert int to long */
+
+	num = n;
+	/* negatives */
+	if (num < 0)
 	{
+		num *= -1;
 		_putchar('-');
-		print_number(-n);
-		return;
 	}
 
-	if (n > 9)
+	/* count up */
+	m = 1;
+	c = 1;
+	while (c)
 	{
-		print_number(n / 10);
-		_putchar(n % 10 + '0');
+		if (num / (m * 10) > 0)
+			m *= 10;
+		else
+			c = 0;
 	}
-	else
-		_putchar(n + '0');
+
+	/* count down */
+	while (num >= 0)
+	{
+		if (m == 1)
+		{
+			_putchar(num % 10 + '0');
+			num = -1;
+		}
+		else
+		{
+			_putchar((num / m % 10) + '0');
+			m /= 10;
+		}
+	}
 }
