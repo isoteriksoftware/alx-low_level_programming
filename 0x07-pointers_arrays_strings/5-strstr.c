@@ -27,7 +27,8 @@ char *_strstr(char *haystack, char *needle)
 					break;
 			}
 
-			return (resultInitial);
+			if (needle[j] == '\0')
+				return (resultInitial);
 		}
 	}
 
