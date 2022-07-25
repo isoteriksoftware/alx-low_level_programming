@@ -20,8 +20,7 @@ char **strtow(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == ' ' && str[i + 1] != '\0'
-			       && str[i + 1] != ' ')
+		if (i > 0 && str[i] == ' ' && str[i - 1] != ' ')
 			len++;
 		i++;
 	}
@@ -42,33 +41,30 @@ char **strtow(char *str)
  */
 void util(char **words, char *str)
 {
-	int i, j, k, l, start, end;
+	int i, j, k, l, start, end, flag;
 
-	i = k = 0;
+	i = k = flag = 0;
 	while (str[i])
 	{
-		if (str[i] == ' ' && str[i + 1] != '\0'
-			       && str[i + 1] != ' ')
+		if (flag == 0 && str[i] != ' ')
 		{
-			j = 0;
-			i++;
 			start = i;
+			flag = 1;
+		}	
 
-			while (str[i] != ' ' && str[i] != '\0')
-			{
-				j++;
-				i++;
-			}
-
-			end = start + j;
+		if (i > 0 && str[i] == ' ' && str[i - 1] != ' ')
+		{
+			end = i;
+			j = end - start;
 			words[k] = (char *)malloc(sizeof(char) * (j + 1));
 
 			for (l = 0; start < end; start++, l++)
 				words[k][l] = str[start];
 			words[k][l] = '\0';
 			k++;
+			flag = 0;
 		}
-		else
-			i++;
+		
+		i++;
 	}
 }
