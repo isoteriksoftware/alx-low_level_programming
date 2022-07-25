@@ -32,6 +32,9 @@ char **strtow(char *str)
 	}
 
 	len += flag == 1 ? 1 : 0;
+	if (len == 0)
+		return (NULL);
+
 	words = (char **)malloc(sizeof(char *) * (len + 1));
 	if (words == NULL)
 		return (NULL);
