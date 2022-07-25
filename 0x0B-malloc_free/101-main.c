@@ -27,7 +27,7 @@ int main(void)
 {
     char **tab;
 
-    tab = strtow(" ");
+    tab = strtow(" !@#$^&*(())_Talk ><><.., ][{} 76478 is ~~ cheap :) . Show #$45&*(45 me 873589 the |[]{} -_=+ code.^&");
     if (tab == NULL)
     {
         printf("Failed\n");
