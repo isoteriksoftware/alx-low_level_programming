@@ -7,19 +7,15 @@
  *
  * Return: a pointer to the allocated memory.
  */
-void *_calloc(unsigned int nmemb, unsigned int size)
+void *_calloc(unsigned int n, unsigned int size)
 {
-	int *p;
-	unsigned int i;
+	void *ptr;
+	unsigned int i = 0;
 
-	if (nmemb <= 0 || size <= 0)
+	if (!n || !size)
 		return (NULL);
-
-	p = malloc(nmemb * size);
-	if (p == NULL)
-		return (NULL);
-	for (i = 0; i < nmemb; i++)
-		p[i] = 0;
-
-	return (p);
+	ptr = malloc(n * size);
+	while (i < n * size && ptr)
+		((char *)ptr)[i++] = 0;
+	return (ptr);
 }
