@@ -2,105 +2,112 @@
 #include "main.h"
 
 /**
- * isnumber - checks if a string is a number
- * @s: pointer to string
- * Return: 1 if s is a number 0 otherwise
+ * _isdigit - checks if character is digit
+ * @c: the character to check
+ *
+ * Return: 1 if digit, 0 otherwise
  */
-int isnumber(char *s)
+int _isdigit(int c)
 {
-	while (*s)
-	{
-		if (*s > 58 || *s < 48)
-			return (0);
-		s++;
-	}
-	return (1);
+	return (c >= '0' && c <= '9');
 }
 
 /**
- * mul2 - multiply two numbers
- * @s1: first number
- * @s2: second number
- * Return: pointer to result
+ * _strlen - returns the length of a string
+ * @s: the string whose length to check
+ *
+ * Return: integer length of string
  */
-char *mul2(char *s1, char *s2)
-{
-	int l1, l2, sum = 0, cry = 0, *res, i,
-	    j, n1, n2, r1 = 0, r2 = 0;
-	char *ans;
-
-	if (!isnumber(s1) || !isnumber(s2))
-		return (NULL);
-	l1 = strlen(s1);
-	l2 = strlen(s2);
-	res = malloc((l1 + l2) * sizeof(*res));
-	if (res == NULL)
-		return (NULL);
-	for (i = 0; i < l1 + l2; i++)
-		res[i] = 0;
-	for (i = l1 - 1; i >= 0; i--)
-	{
-		n1 = s1[i] - '0';
-		r2 = 0;
-		cry = 0;
-		for (j = l2 - 1; j >= 0; j--)
-		{
-			n2 = s2[j] - '0';
-			sum = (n1 * n2) + res[r1 + r2] + cry;
-			res[r1 + r2] = sum % 10;
-			cry = sum / 10;
-			r2++;
-		}
-		if (cry > 0)
-			res[r1 + r2] += cry;
-		r1++;
-	}
-	i = l1 + l2 - 1;
-	while (res[i] == 0 && i >= 0)
-		i--;
-	if (i < 0)
-		return ("0");
-	ans = malloc(sizeof(*ans) * (i + 2));
-	for (j = 0; i >= 0; j++, i--)
-		ans[j] = res[i] + '0';
-	ans[j] = '\0';
-	return (ans);
-}
-
-/**
- * print - prints a string
- * @s: string to print
- */
-void print(char *s)
+int _strlen(char *s)
 {
 	int i = 0;
 
-	while (s[i])
-		_putchar(s[i++]);
-	_putchar('\n');
+	while (*s++)
+		i++;
+	return (i);
 }
 
 /**
- * main - entry point
- * @argc: argument count
- * @argv: arguments array
- * Return: 0 success 98 error
+ * big_multiply - multiply two big number strings
+ * @s1: the first big number string
+ * @s2: the second big number string
+ *
+ * Return: the product big number string
+ */
+char *big_multiply(char *s1, char *s2)
+{
+	char *r;
+	int l1, l2, a, b, c, x;
+
+	l1 = _strlen(s1);
+	l2 = _strlen(s2);
+	r = malloc(a = x = l1 + l2);
+	if (!r)
+		printf("Error\n"), exit(98);
+	while (a--)
+		r[a] = 0;
+
+	for (l1--; l1 >= 0; l1--)
+	{
+		if (!_isdigit(s1[l1]))
+		{
+			free(r);
+			printf("Error\n"), exit(98);
+		}
+		a = s1[l1] - '0';
+		c = 0;
+
+		for (l2 = _strlen(s2) - 1; l2 >= 0; l2--)
+		{
+			if (!_isdigit(s2[l2]))
+			{
+				free(r);
+				printf("Error\n"), exit(98);
+			}
+			b = s2[l2] - '0';
+
+			c += r[l1 + l2 + 1] + (a * b);
+			r[l1 + l2 + 1] = c % 10;
+
+			c /= 10;
+		}
+		if (c)
+			r[l1 + l2 + 1] += c;
+	}
+	return (r);
+}
+
+
+/**
+ * main - multiply two big number strings
+ * @argc: the number of arguments
+ * @argv: the argument vector
+ *
+ * Return: Always 0 on success.
  */
 int main(int argc, char **argv)
 {
-	char *res;
+	char *r;
+	int a, c, x;
 
 	if (argc != 3)
+		printf("Error\n"), exit(98);
+
+	x = _strlen(argv[1]) + _strlen(argv[2]);
+	r = big_multiply(argv[1], argv[2]);
+	c = 0;
+	a = 0;
+	while (c < x)
 	{
-		print("Error");
-		exit(98);
+		if (r[c])
+			a = 1;
+		if (a)
+			_putchar(r[c] + '0');
+		c++;
 	}
-	res = mul2(argv[1], argv[2]);
-	if (res == NULL)
-	{
-		print("Error");
-		exit(98);
-	}
-	print(res);
+	if (!a)
+		_putchar('0');
+	_putchar('\n');
+	free(r);
 	return (0);
 }
